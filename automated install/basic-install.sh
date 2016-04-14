@@ -55,7 +55,7 @@ else
 	echo "::: sudo will be used for the install."
 	# Check if it is actually installed
 	# If it isn't, exit because the install cannot complete
-	if [[ $(dpkg-query -s sudo) ]];then
+	if [[ $(pacman -Q sudo) ]];then
 		export SUDO="sudo"
 	else
 		echo "::: Please install sudo or run this as root."
