@@ -23,7 +23,7 @@ tmpLog=/tmp/pihole-install.log
 instalLogLoc=/etc/pihole/install.log
 
 webInterfaceGitUrl="https://github.com/pi-hole/AdminLTE.git"
-webInterfaceDir="/var/www/html/admin"
+webInterfaceDir="/srv/html/admin"
 piholeGitUrl="https://github.com/pi-hole/pi-hole.git"
 piholeFilesDir="/etc/.pihole"
 
@@ -89,7 +89,7 @@ backupLegacyPihole() {
 		$SUDO mv /etc/dnsmasq.conf /etc/pihole/original/dnsmasq.conf."$(date "+%Y-%m-%d")"
 		$SUDO mv /etc/resolv.conf /etc/pihole/original/resolv.conf."$(date "+%Y-%m-%d")"
 		$SUDO mv /etc/lighttpd/lighttpd.conf /etc/pihole/original/lighttpd.conf."$(date "+%Y-%m-%d")"
-		$SUDO mv /var/www/pihole/index.html /etc/pihole/original/index.html."$(date "+%Y-%m-%d")"
+		$SUDO mv /srv/pihole/index.html /etc/pihole/original/index.html."$(date "+%Y-%m-%d")"
 		if [ ! -d /opt/pihole ]; then
 			$SUDO mkdir /opt/pihole
 			$SUDO chown "$USER":root /opt/pihole
@@ -624,16 +624,16 @@ installPiholeWeb() {
 	# Install the web interface
 	$SUDO echo ":::"
 	$SUDO echo -n "::: Installing pihole custom index page..."
-	if [ -d "/var/www/html/pihole" ]; then
+	if [ -d "/srv/html/pihole" ]; then
 		$SUDO echo " Existing page detected, not overwriting"
 	else
-		$SUDO mkdir /var/www/html/pihole
-		if [ -f /var/www/html/index.lighttpd.html ]; then
-			$SUDO mv /var/www/html/index.lighttpd.html /var/www/html/index.lighttpd.orig
+		$SUDO mkdir /srv/html/pihole
+		if [ -f /srv/html/index.lighttpd.html ]; then
+			$SUDO mv /srv/html/index.lighttpd.html /srv/html/index.lighttpd.orig
 		else
 			printf "\n:::\tNo default index.lighttpd.html file found... not backing up"
 		fi
-		$SUDO cp /etc/.pihole/advanced/index.* /var/www/html/pihole/.
+		$SUDO cp /etc/.pihole/advanced/index.* /srv/html/pihole/.
 		$SUDO echo " done!"
 	fi
 }
@@ -675,11 +675,11 @@ installPihole() {
 	stopServices
 	setUser
 	$SUDO mkdir -p /etc/pihole/
-	if [ ! -d "/var/www/html" ]; then
-		$SUDO mkdir -p /var/www/html
+	if [ ! -d "/srv/html" ]; then
+		$SUDO mkdir -p /srv/html
 	fi
-	$SUDO chown www-data:www-data /var/www/html
-	$SUDO chmod 775 /var/www/html
+	$SUDO chown www-data:www-data /srv/html
+	$SUDO chmod 775 /srv/html
 	$SUDO usermod -a -G www-data pihole
 	$SUDO lighty-enable-mod fastcgi fastcgi-php > /dev/null
 
@@ -744,4 +744,3 @@ echo ":::"
 echo "::: If you set a new IP address, you should restart the Pi."
 echo "::: "
 echo "::: The install log is located at: /etc/pihole/install.log"
-
