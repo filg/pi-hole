@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Pi-hole: A black hole for Internet advertisements
 # (c) 2015 by Jacob Salmela
-# Network-wide ad blocking via your Raspberry Pi
+# Network-wide ad blocking via your Arch ARM
 # http://pi-hole.net
 # Compiles a list of ad-serving domains by downloading them from multiple sources
 #
